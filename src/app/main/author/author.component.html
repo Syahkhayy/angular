@@ -3,10 +3,7 @@
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'Author' | localize" [description]="'AuthorHeaderInfo' | localize">
             <div role="actions">
-                <!-- <button (click)="createPersonModal.show()" *ngIf="'Pages.Tenant.PhoneBook.CreatePerson' | permission"
-                    class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNewPerson" | localize}}</button> -->
-                    <button 
-                    class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNewAuthor" | localize}}</button>
+                    <button class="btn btn-primary" (click)="createAuthorModal.show()"><i class="fa fa-plus"></i> {{"CreateNewAuthor" | localize}}</button>
             </div>
         </sub-header>
        
@@ -80,10 +77,10 @@
                                                 </button>
                                                 <ul id="dropdownMenu" class="dropdown-menu" role="menu" *dropdownMenu aria-labelledby="dropdownButton">
                                                     <li role="menuitem">
-                                                        <a class="dropdown-item" href="javascript:;"
+                                                        <a class="dropdown-item" (click)="editAuthorModal.show(record.id)" href="javascript:;"
                                                         >{{'Edit' | localize}}</a>
                                                     </li>
-                                                    <li role="menuitem">
+                                                    <li role="menuitem" (click)="deleteAuthor(record)">
                                                         <a class="dropdown-item" href="javascript:;"                                                        
                                                         >{{'Delete' | localize}}</a>
                                                     </li>
@@ -97,15 +94,15 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="p-column-title">{{'Email' | localize}}</span>
+                                            <span class="p-column-title">{{'AuthorAge' | localize}}</span>
                                             {{record.age}}
                                         </td>
                                         <td>
-                                            <span class="p-column-title">{{'Email' | localize}}</span>
+                                            <span class="p-column-title">{{'AuthorEmail' | localize}}</span>
                                             {{record.emailAddress ? record.emailAddress : 'N/A'}}
                                         </td>
                                         <td>
-                                            <span class="p-column-title">{{'Email' | localize}}</span>
+                                            <span class="p-column-title">{{'AuthorPhone' | localize}}</span>
                                             {{record.phone ? record.phone : 'N/A'}}
                                         </td>
                                     </tr>
@@ -119,9 +116,11 @@
                 </div>
             </div>
         </div>
-
-        <!-- <createPersonModal #createPersonModal (modalSave)="getPeople()"></createPersonModal>
-        <editPersonModal #editPersonModal (modalSave)="getPeople()"></editPersonModal>
+        
+        <createAuthorModal #createAuthorModal (modalSave)="GetAuthor()"></createAuthorModal>
+        <editAuthorModal #editAuthorModal (modalSave)="GetAuthor()"></editAuthorModal>
+        <!-- 
+        
         <editPersonModal #editPersonModal (phoneSave)="getPeople()"></editPersonModal> -->
     </div>
     

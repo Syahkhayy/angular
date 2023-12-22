@@ -1,0 +1,70 @@
+<div bsModal #modal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        
+          <div class="modal-header">
+              <h4 class="modal-title">
+              <span>{{"CreateBook" | localize}}</span>
+            </h4>
+            <button type="button" class="close" (click)="close()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>          
+          </div>
+          <div class="modal-body">
+            
+              
+                <form *ngIf="active" #bookForm="ngForm" novalidate (ngSubmit)="save()">
+                  <div class="form-group">
+                    <label>{{"BookTitle" | localize}}</label>
+                    <input #titleInput class="form-control" type="text" name="title" [(ngModel)]="book.title" required maxlength="32">            
+                  </div>
+        
+                  <div class="form-group">
+                    <label>{{"YearPublish" | localize}}</label>
+                    <input class="form-control" type="text" name="yearPublish" [(ngModel)]="book.yearPublish" required maxlength="32">            
+                  </div>
+
+                  <div class="form-group">
+                    <label for="genres">{{ "Genres" | localize }}</label>
+                    <select class="form-control" multiple [(ngModel)]="selectedGenres" name="genres">
+                      <option *ngFor="let genreValue of objectValue(genreEnum)" [value]="genreValue">
+                        {{ genreValue }}
+                      </option>
+                    </select>
+                    <button type="button" class="btn btn-danger my-3" (click)="clearGenres()" [disabled]="!selectedGenres"><i class="fa"></i><span>{{"Clear" | localize}}</span></button>
+                  </div>                           
+
+                  <div class="form-group">
+                  <label>{{"Summary" | localize}}</label>
+                    <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" 
+                    class="form-control" name="summary" [(ngModel)]="book.summary" maxlength="255"></textarea>                       
+                  </div>
+
+                  <!-- Single select dropdown for author -->
+                    <div class="form-group">
+                        <label>{{"BookAuthor" | localize}}</label>
+                        <select class="form-control" name="author" [(ngModel)]="selectedAuthor">
+                        <option *ngFor="let author of authors" [value]="author.id">{{author.fullName}}</option>
+                        </select>
+                    </div>
+
+                    <!-- Multiple select dropdown for collaborators -->
+                    <div class="form-group">
+                        <label>{{"BookCollabs" | localize}}</label>
+                        <select class="form-control" name="collaborators" [(ngModel)]="selectedCollaborators" multiple>
+                        <option *ngFor="let author of authors" [value]="author.id">{{author.fullName}}</option>
+                        </select>
+                        <button type="button" class="btn btn-danger my-3" (click)="clearCollabs()" [disabled]="!selectedCollaborators"><i class="fa"></i><span>{{"Clear" | localize}}</span></button>
+                    </div>
+
+
+                  <button type="submit" class="btn btn-primary" [disabled]="!bookForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot' | localize)"><i class="fa fa-save"></i> <span>{{"Save" | localize}}</span></button>
+                </form>
+            </div>
+          <div class="modal-footer">
+            <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{"Close" | localize}}</button>
+          </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,48 @@
+<div bsModal #modal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        
+          <div class="modal-header">
+              <h4 class="modal-title">
+              <span>{{"EditAuthor" | localize}}</span>
+            </h4>
+            <button type="button" class="close" (click)="close()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>          
+          </div>
+          <div class="modal-body">
+            
+              
+                <form *ngIf="active" #authorForm="ngForm" novalidate (ngSubmit)="save()">
+                  <div class="form-group">
+                    <label>{{"AuthorName" | localize}}</label>
+                    <input #nameInput class="form-control" type="text" name="name" [(ngModel)]="author.fullName" required maxlength="32">            
+                  </div>
+        
+                  <div class="form-group">
+                    <label>{{"AuthorAge" | localize}}</label>
+                    <input class="form-control" type="number" name="age" [(ngModel)]="author.age" required maxlength="32">            
+                  </div>
+
+                  <div class="form-group">
+                  <label>{{"AuthorEmail" | localize}}</label>
+                    <input class="form-control" type="email" name="emailAddress" [(ngModel)]="author.emailAddress" maxlength="255" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$|^null$">                        
+                  </div>
+
+                  <div class="form-group">
+                    <label>{{"AuthorPhone" | localize}}</label>
+                    <input #numberInput="ngModel" class="form-control" type="text" name="number" [(ngModel)]="author.phone" pattern="^[0-9-]*$|^null$" maxlength="32">
+                    <div class="alert alert-danger" *ngIf="numberInput.invalid && numberInput.touched">
+                      Please enter a valid phone number (numbers and dashes only).
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" [disabled]="!authorForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot' | localize)"><i class="fa fa-save"></i> <span>{{"Save" | localize}}</span></button>
+                </form>
+            </div>
+          <div class="modal-footer">
+            <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{"Close" | localize}}</button>
+          </div>
+      </div>
+    </div>
+  </div>
+  

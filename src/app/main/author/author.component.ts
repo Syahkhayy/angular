@@ -38,4 +38,21 @@ export class AuthorComponent extends AppComponentBase implements OnInit{
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
+
+    deleteAuthor(author: AuthorListDto): void {
+        let self = this;
+        self.message.confirm(
+            self.l('AreYouSureToDeleteTheAuthor ' + author.fullName),
+            this.l('AreYouSure'),
+            isConfirmed => {
+                if (isConfirmed) {
+                    this._authorService.deleteAuthor(author.id).subscribe(() => {
+                        this.GetAuthor();
+                        _remove(this.authors, author);
+                        abp.notify.success(this.l('SuccessfullyDeleted'));
+                    });
+                }
+            }
+        );
+    }
 }

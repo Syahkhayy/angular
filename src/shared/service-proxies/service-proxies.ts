@@ -1290,6 +1290,218 @@ export class AuthorServiceProxy {
         }
         return _observableOf<ListResultDtoOfAuthorListDto>(<any>null);
     }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createAuthor(body: CreateAuthorInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Author/CreateAuthor";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateAuthor(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateAuthor(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateAuthor(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    deleteAuthor(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Author/DeleteAuthor?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteAuthor(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteAuthor(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteAuthor(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAuthorForEdit(id: number | undefined): Observable<GetAuthorForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Author/GetAuthorForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAuthorForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAuthorForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAuthorForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAuthorForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAuthorForEdit(response: HttpResponseBase): Observable<GetAuthorForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetAuthorForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAuthorForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    editAuthor(body: EditAuthorInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Author/EditAuthor";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processEditAuthor(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processEditAuthor(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processEditAuthor(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -1357,6 +1569,218 @@ export class BookServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfBookListDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createBook(body: CreateBookInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Book/CreateBook";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateBook(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateBook(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateBook(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    deleteBook(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Book/DeleteBook?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteBook(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteBook(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteBook(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getBookForEdit(id: number | undefined): Observable<GetBookForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Book/GetBookForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBookForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBookForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetBookForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetBookForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBookForEdit(response: HttpResponseBase): Observable<GetBookForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetBookForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetBookForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    editBook(body: EditBookInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Book/EditBook";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processEditBook(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processEditBook(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processEditBook(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -15804,6 +16228,129 @@ export interface IComboboxItemDto {
     isSelected: boolean;
 }
 
+export class CreateAuthorInput implements ICreateAuthorInput {
+    fullName!: string;
+    age!: number;
+    emailAddress!: string | undefined;
+    phone!: string | undefined;
+
+    constructor(data?: ICreateAuthorInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.fullName = _data["fullName"];
+            this.age = _data["age"];
+            this.emailAddress = _data["emailAddress"];
+            this.phone = _data["phone"];
+        }
+    }
+
+    static fromJS(data: any): CreateAuthorInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAuthorInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fullName"] = this.fullName;
+        data["age"] = this.age;
+        data["emailAddress"] = this.emailAddress;
+        data["phone"] = this.phone;
+        return data; 
+    }
+}
+
+export interface ICreateAuthorInput {
+    fullName: string;
+    age: number;
+    emailAddress: string | undefined;
+    phone: string | undefined;
+}
+
+export class CreateBookInput implements ICreateBookInput {
+    title!: string;
+    yearPublish!: string;
+    genres!: Genre[];
+    summary!: string | undefined;
+    authorId!: number;
+    collaboratorsId!: number[] | undefined;
+
+    constructor(data?: ICreateBookInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.genres = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.yearPublish = _data["yearPublish"];
+            if (Array.isArray(_data["genres"])) {
+                this.genres = [] as any;
+                for (let item of _data["genres"])
+                    this.genres!.push(item);
+            }
+            this.summary = _data["summary"];
+            this.authorId = _data["authorId"];
+            if (Array.isArray(_data["collaboratorsId"])) {
+                this.collaboratorsId = [] as any;
+                for (let item of _data["collaboratorsId"])
+                    this.collaboratorsId!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): CreateBookInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateBookInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["yearPublish"] = this.yearPublish;
+        if (Array.isArray(this.genres)) {
+            data["genres"] = [];
+            for (let item of this.genres)
+                data["genres"].push(item);
+        }
+        data["summary"] = this.summary;
+        data["authorId"] = this.authorId;
+        if (Array.isArray(this.collaboratorsId)) {
+            data["collaboratorsId"] = [];
+            for (let item of this.collaboratorsId)
+                data["collaboratorsId"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface ICreateBookInput {
+    title: string;
+    yearPublish: string;
+    genres: Genre[];
+    summary: string | undefined;
+    authorId: number;
+    collaboratorsId: number[] | undefined;
+}
+
 export class CreateEditionDto implements ICreateEditionDto {
     edition!: EditionCreateDto;
     featureValues!: NameValueDto[];
@@ -16793,6 +17340,134 @@ export interface IDynamicPropertyValueDto {
     tenantId: number | undefined;
     dynamicPropertyId: number;
     id: number;
+}
+
+export class EditAuthorInput implements IEditAuthorInput {
+    id!: number;
+    fullName!: string;
+    age!: number;
+    emailAddress!: string | undefined;
+    phone!: string | undefined;
+
+    constructor(data?: IEditAuthorInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.fullName = _data["fullName"];
+            this.age = _data["age"];
+            this.emailAddress = _data["emailAddress"];
+            this.phone = _data["phone"];
+        }
+    }
+
+    static fromJS(data: any): EditAuthorInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new EditAuthorInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["fullName"] = this.fullName;
+        data["age"] = this.age;
+        data["emailAddress"] = this.emailAddress;
+        data["phone"] = this.phone;
+        return data; 
+    }
+}
+
+export interface IEditAuthorInput {
+    id: number;
+    fullName: string;
+    age: number;
+    emailAddress: string | undefined;
+    phone: string | undefined;
+}
+
+export class EditBookInput implements IEditBookInput {
+    id!: number;
+    title!: string;
+    yearPublish!: string;
+    genres!: Genre[] | undefined;
+    summary!: string | undefined;
+    authorId!: number;
+    collaboratorsId!: number[] | undefined;
+
+    constructor(data?: IEditBookInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.yearPublish = _data["yearPublish"];
+            if (Array.isArray(_data["genres"])) {
+                this.genres = [] as any;
+                for (let item of _data["genres"])
+                    this.genres!.push(item);
+            }
+            this.summary = _data["summary"];
+            this.authorId = _data["authorId"];
+            if (Array.isArray(_data["collaboratorsId"])) {
+                this.collaboratorsId = [] as any;
+                for (let item of _data["collaboratorsId"])
+                    this.collaboratorsId!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): EditBookInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new EditBookInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["yearPublish"] = this.yearPublish;
+        if (Array.isArray(this.genres)) {
+            data["genres"] = [];
+            for (let item of this.genres)
+                data["genres"].push(item);
+        }
+        data["summary"] = this.summary;
+        data["authorId"] = this.authorId;
+        if (Array.isArray(this.collaboratorsId)) {
+            data["collaboratorsId"] = [];
+            for (let item of this.collaboratorsId)
+                data["collaboratorsId"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IEditBookInput {
+    id: number;
+    title: string;
+    yearPublish: string;
+    genres: Genre[] | undefined;
+    summary: string | undefined;
+    authorId: number;
+    collaboratorsId: number[] | undefined;
 }
 
 export class EditionCreateDto implements IEditionCreateDto {
@@ -18553,6 +19228,24 @@ export interface IGeneralSettingsEditDto {
     timezoneForComparison: string | undefined;
 }
 
+export enum Genre {
+    Action = 0,
+    Adventure = 1,
+    Classic = 2,
+    Comic_Book = 3,
+    Detective_Mystery = 4,
+    Fantasy = 5,
+    Historical_Fiction = 6,
+    Horror = 7,
+    Romance = 8,
+    Science_Fiction = 9,
+    Thriller = 10,
+    Autobiographies = 11,
+    Self_Improvement = 12,
+    Religion = 13,
+    Non_Fiction = 14,
+}
+
 export class GetAllAvailableWebhooksOutput implements IGetAllAvailableWebhooksOutput {
     name!: string | undefined;
     displayName!: string | undefined;
@@ -18919,6 +19612,134 @@ export interface IGetAllSubscriptionsOutput {
     isActive: boolean;
     webhooks: string[] | undefined;
     id: string;
+}
+
+export class GetAuthorForEditOutput implements IGetAuthorForEditOutput {
+    id!: number;
+    fullName!: string | undefined;
+    age!: number;
+    emailAddress!: string | undefined;
+    phone!: string | undefined;
+
+    constructor(data?: IGetAuthorForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.fullName = _data["fullName"];
+            this.age = _data["age"];
+            this.emailAddress = _data["emailAddress"];
+            this.phone = _data["phone"];
+        }
+    }
+
+    static fromJS(data: any): GetAuthorForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAuthorForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["fullName"] = this.fullName;
+        data["age"] = this.age;
+        data["emailAddress"] = this.emailAddress;
+        data["phone"] = this.phone;
+        return data; 
+    }
+}
+
+export interface IGetAuthorForEditOutput {
+    id: number;
+    fullName: string | undefined;
+    age: number;
+    emailAddress: string | undefined;
+    phone: string | undefined;
+}
+
+export class GetBookForEditOutput implements IGetBookForEditOutput {
+    id!: number;
+    title!: string | undefined;
+    yearPublish!: string | undefined;
+    genres!: Genre[] | undefined;
+    summary!: string | undefined;
+    authorId!: number;
+    collaboratorsId!: number[] | undefined;
+
+    constructor(data?: IGetBookForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.yearPublish = _data["yearPublish"];
+            if (Array.isArray(_data["genres"])) {
+                this.genres = [] as any;
+                for (let item of _data["genres"])
+                    this.genres!.push(item);
+            }
+            this.summary = _data["summary"];
+            this.authorId = _data["authorId"];
+            if (Array.isArray(_data["collaboratorsId"])) {
+                this.collaboratorsId = [] as any;
+                for (let item of _data["collaboratorsId"])
+                    this.collaboratorsId!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): GetBookForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetBookForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["yearPublish"] = this.yearPublish;
+        if (Array.isArray(this.genres)) {
+            data["genres"] = [];
+            for (let item of this.genres)
+                data["genres"].push(item);
+        }
+        data["summary"] = this.summary;
+        data["authorId"] = this.authorId;
+        if (Array.isArray(this.collaboratorsId)) {
+            data["collaboratorsId"] = [];
+            for (let item of this.collaboratorsId)
+                data["collaboratorsId"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IGetBookForEditOutput {
+    id: number;
+    title: string | undefined;
+    yearPublish: string | undefined;
+    genres: Genre[] | undefined;
+    summary: string | undefined;
+    authorId: number;
+    collaboratorsId: number[] | undefined;
 }
 
 export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInformationsOutput {
